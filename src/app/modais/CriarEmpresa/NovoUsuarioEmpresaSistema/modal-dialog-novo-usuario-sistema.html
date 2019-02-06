@@ -1,0 +1,43 @@
+<div mat-dialog-content>
+    <h4>Adicione novo usuario para acessar o sistema pela empresa</h4>
+
+    <form action="" [formGroup]="listaAcessoSistema" class="mt3">
+        <!-- nome usuario -->
+        <div class="form-group col-md-12 col-xs-12">
+            <sc-input-container errorMessage="Campo obrigatório" label="Nome">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <input [(ngModel)]="usuario.nome" class="form-control" type="text" name="nome" formControlName="nome" placeholder="Nome">
+                </div>
+            </sc-input-container>
+            <!-- email -->
+            <sc-input-container errorMessage="Campo obrigatório" label="E-mail">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                    <input [(ngModel)]="usuario.email" class="form-control" type="text" name="email" formControlName="email" placeholder="E-mail">
+                </div>
+            </sc-input-container>
+            <!-- senha -->
+            <sc-input-container errorMessage="Campo obrigatório" label="Senha">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-unlock-alt"></i>
+                    </div>
+                    <input [(ngModel)]="usuario.senha" class="form-control" type="password" name="senha" formControlName="senha" placeholder="Senha">
+                </div>
+            </sc-input-container>
+        </div>
+    </form>
+
+</div>
+
+<div class="box-footer">
+    <div class="col-xs-12">
+        <button mat-button [mat-dialog-close]="usuario" cdkFocusInitial class="btn btn-success btn-flat pull-right" [disabled]="!listaAcessoSistema.valid">Adicionar</button>
+        <button type="submit" class="btn btn-danger btn-flat">Cancelar</button>
+    </div>
+</div>

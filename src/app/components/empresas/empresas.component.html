@@ -1,0 +1,65 @@
+<sc-content-header [section]="sect"></sc-content-header>
+
+
+
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+
+    <mat-progress-spinner [mode]="indeterminate" *ngIf="dataSource.loading$ | async"></mat-progress-spinner>
+
+    <!-- id Column -->
+    <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef> ID. </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+    </ng-container>
+
+    <!-- nome fantasia Column -->
+    <ng-container matColumnDef="nome_fantasia">
+        <mat-header-cell *matHeaderCellDef>Nome Fantasia</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.nome_fantasia}} </mat-cell>
+    </ng-container>
+
+    <!-- razão social Column -->
+    <ng-container matColumnDef="razao_social">
+        <mat-header-cell *matHeaderCellDef>Razão Social</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.razao_social}} </mat-cell>
+    </ng-container>
+
+    <!-- cnpj Column -->
+    <ng-container matColumnDef="cnpj">
+        <mat-header-cell *matHeaderCellDef>CNPJ</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.cnpj}} </mat-cell>
+    </ng-container>
+
+    <!-- area_atuacao_id Column -->
+    <ng-container matColumnDef="area_atuacao_id">
+        <mat-header-cell *matHeaderCellDef>A. Atuação</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.area_atuacao_id}} </mat-cell>
+    </ng-container>
+
+    <!-- area_atuacao_id Column -->
+    <ng-container matColumnDef="acoes">
+        <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+
+
+            <a [routerLink]="['/empresa/editar', element.id]" class="btn btn-flat btn-primary">
+                <i class="fa fa-edit"></i>
+            </a>
+
+            <button pButton (click)="ConfirmarDeleteEmpresa(element)" class="btn btn-flat btn-danger"><i class="fa fa-trash"></i></button>
+
+            <a [routerLink]="['/empresa/organograma', element.id]" class="btn btn-flat btn-success">
+                <i class="fa fa-sitemap"></i>
+            </a>
+
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+</mat-table>
+
+<sc-modals (delete)="remover($event)"></sc-modals>

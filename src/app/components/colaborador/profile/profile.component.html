@@ -1,0 +1,154 @@
+<div class="row">
+
+	<section class="content-header">
+
+		<div class="form-group">
+			<ol class="breadcrumb">
+				<li><a [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> Home</a></li>
+				<li class="active">Colaborador</li>
+				<li class="active">{{colaboradorInfo?.nome}}</li>
+			</ol>
+		</div>
+	</section>
+
+	<div class="col-md-3">
+
+
+
+		<!-- Profile Image -->
+		<div class="box box-primary">
+			<div class="box-body box-profile">
+				<img class="profile-user-img img-responsive img-circle" src="{{ colaboradorInfo?.imagem }}"
+				 alt="User profile picture">
+
+				<h3 class="profile-username text-center">{{colaboradorInfo?.nome}}</h3>
+
+				<p class="text-muted text-center">{{colaboradorInfo?.cargo.cargo}}</p>
+
+				<ul class="list-group list-group-unbordered">
+					<li class="list-group-item">
+						<b>Setor</b> <a class="pull-right">{{ colaboradorInfo?.sector?.sector }}</a>
+					</li>
+					<li class="list-group-item">
+						<b>Gestor</b>
+						<i *ngIf="!colaboradorInfo?.gestor" class="pull-right fa fa-star" style="color:red"></i>
+						<a *ngIf="colaboradorInfo?.gestor" class="pull-right">
+							{{colaboradorInfo?.gestor.nome}}
+						</a>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+
+	</div>
+	<!-- /.col -->
+	<div class="col-md-9">
+		<div class="nav-tabs-custom">
+			<ul class="nav nav-tabs">
+				
+				<li class="active"><a href="#avaliacao" data-toggle="tab">Avaliações</a></li>
+				<li><a href="#dadosbasicos" data-toggle="tab">Dados Básicos</a></li>
+				<li><a href="#settings" data-toggle="tab">Settings</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane" id="dadosbasicos">
+					<div class="row">
+						<!-- <div class="col-md-3 mt-4">
+							<b>Nome:</b>
+							{{colaboradorInfo.nome}}
+						</div> -->
+					</div>
+				</div>
+
+				<div class="active tab-pane" id="avaliacao">
+
+					<!-- <div class="row" *ngIf="this.colaboradorInfo?.avaliacao.length < 1">
+						<div class="col-md-12">
+							<div class="alert alert-warning alert-dismissible">
+								<h4>
+									<i class="icon fa fa-warning"></i> Atenção!
+								</h4>
+								Colaborador ainda não realizou a auto-avaliação.
+							</div>
+						</div>
+					</div> 
+				 	<div class="row">
+						<div class="col-md-12 mt-4">
+							<button class="btn btn-flat btn-primary">Liberar Avaliação</button>
+						</div>
+					</div> -->
+
+
+					<div class="row mt-2" *ngIf="colaboradorInfo?.avaliacao.length > 0">
+						
+						<div class="col-md-12">
+							<h4>Avaliações recebidas</h4>
+							<ul class="users-list clearfix">
+								<li *ngFor="let aval of colaboradorInfo?.avaliacao">
+									<img (click)="abrirAvaliacaoRecebidaPor(aval.id)" class="imagem-colaborador" style="width:100px; height:100px;" src="{{ aval?.imagem_avaliador }}" alt="imagem de perfil do colaborador {{aval.nome}}">
+									<a class="users-list-name" href="#">{{aval.nome_avaliador}}</a>
+									<span class="users-list-date">Today</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="row mt-2" *ngIf="listaAvaliacoesPendentes.length > 0">
+						<div class="col-md-12">
+							<h4>Avaliações a realizar</h4>
+							<ul class="users-list clearfix">
+								<li *ngFor="let pendente of listaAvaliacoesPendentes">
+									
+									<div class="block">
+
+										<img (click)="abrirAvaliacaoRecebidaPor(pendente.colaboradors[0].id)" class="imagem-colaborador" style="width:100px; height:100px;" src="{{ pendente?.colaboradors[0].imagem }}" alt="imagem de perfil do colaborador {{ pendente?.colaboradors[0].nome }}">
+										<a class="users-list-name" href="#">{{pendente.colaboradors[0].nome}}</a>
+										<span class="users-list-date">Today</span>
+										
+										<div id="caixa" class="circle">
+											<span matTooltip="Enviar Avaliação" class="fa fa-envelope" (click)="enviarAvaliacao(pendente.colaboradors[0].id)"></span>
+											<span matTooltip="Resetar Avaliação" class="fa fa-refresh" (click)="resetarAvaliacao(pendente.colaboradors[0].id)"></span>
+										</div>
+									
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<!-- <div class="row mt-2" *ngFor="let aval of colaboradorInfo?.avaliacao">
+						<div class="col-md-12">
+							<h4>Realizado por: {{aval.nome}}</h4>
+							<table class="table table-striped">
+								<tr text-center>
+									<th>Competências</th>
+									<th *ngFor="let diretriz of dadosAvaliacao?.diretrizes">{{diretriz.legenda}}</th>
+								</tr>
+								<tr *ngFor="let competencia of dadosAvaliacao?.competencias">
+									<td>
+										{{competencia.competencia}}
+									</td>
+									<td *ngFor="let diretriz of dadosAvaliacao?.diretrizes">
+										<input [checked]="validaRespostas(aval.id, diretriz.id, competencia.id)" disabled type="radio" class="radio-btn"
+										 name="{{aval.id}}_{{competencia.id}}">
+									</td>
+								</tr>
+							</table>
+						</div>
+
+					</div> -->
+				</div>
+				<!-- /.tab-pane -->
+
+				<div class="tab-pane" id="settings">
+
+				</div>
+				<!-- /.tab-pane -->
+			</div>
+			<!-- /.tab-content -->
+		</div>
+		<!-- /.nav-tabs-custom -->
+	</div>
+	<!-- /.col -->
+</div>

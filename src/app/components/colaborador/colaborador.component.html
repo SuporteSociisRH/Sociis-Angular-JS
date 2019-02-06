@@ -1,0 +1,65 @@
+<sc-content-header [section]="sect"></sc-content-header>
+
+
+
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+
+	<mat-progress-spinner [mode]="indeterminate" *ngIf="dataSource.loading$ | async"></mat-progress-spinner>
+
+   <!-- id Column -->
+   <ng-container matColumnDef="id">
+    	<mat-header-cell *matHeaderCellDef> ID. </mat-header-cell>
+    	<mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+	</ng-container>
+
+	<!-- imagem Column -->
+	<ng-container matColumnDef="imagem">
+	    <mat-header-cell *matHeaderCellDef>Imagem</mat-header-cell>
+	    <mat-cell *matCellDef="let element">
+	        <img src="{{element.imagem}}.jpg" class="img img-responsive" />
+	    </mat-cell>
+	</ng-container>
+
+	<!-- nome Column -->
+	<ng-container matColumnDef="nome">
+	    <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
+	    <mat-cell *matCellDef="let element"> {{element.nome}} </mat-cell>
+	</ng-container>
+
+	<!-- cargo id  Column -->
+	<ng-container matColumnDef="cargo_id">
+	  <mat-header-cell *matHeaderCellDef>Cargo</mat-header-cell>
+	  <mat-cell *matCellDef="let element"> {{element.cargo_id}} </mat-cell>
+	</ng-container>
+
+	<!-- empresa id Column -->
+	<ng-container matColumnDef="empresa_id">
+	    <mat-header-cell *matHeaderCellDef>Empresa</mat-header-cell>
+	    <mat-cell *matCellDef="let element"> {{element.empresa_id}} </mat-cell>
+	</ng-container>
+
+
+
+	<!-- ações Column -->
+	<ng-container matColumnDef="acoes">
+	    <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+	    <mat-cell *matCellDef="let element">
+
+	        <button (click)="editarEmpresa(element.id)" class="btn btn-flat btn-primary">
+						<i class="fa fa-edit"></i>
+					</button>
+
+	        <!-- <button data-target="modals" (click)="removerColaborador(element.id)" class="btn btn-flat btn-danger">Remover</button> -->
+	        <button (click)="ConfirmarDeleteColaborador(element)" class="btn btn-flat btn-danger">
+	        	<i class="fa fa-trash"></i>
+	        </button>
+	    </mat-cell>
+	</ng-container>
+
+	<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+	<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+</mat-table>
+
+<sc-modals (delete)="remover($event)"></sc-modals>

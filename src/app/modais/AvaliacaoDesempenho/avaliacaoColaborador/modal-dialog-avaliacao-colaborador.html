@@ -1,0 +1,91 @@
+<div class="box box-widget widget-user-2">
+    <div class="widget-user-header bg-yellow">
+        <div class="widget-user-image">
+            <img class="profile-user-img img-responsive img-circle" src="{{baseStorageUrl}}colaboradores/{{ data.colaboradorInfo[0].imagem_avaliador }}.jpg">
+        </div>
+        <!-- /.widget-user-image -->
+        <h3 class="widget-user-username">{{data.colaboradorInfo[0].nome_avaliador}}</h3>
+        <h5 class="widget-user-desc">Avaliador</h5>
+    </div>
+</div>
+
+
+<div mat-dialog-content>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#avaliacaoColaborador" data-toggle="tab"> <i class="fa fa-file-text-o"></i> Avaliação
+                            do Colaborador</a>
+                    </li>
+                    <li>
+                        <a href="#avaliacaoFinal" data-toggle="tab"><i class="fa fa-file-text"></i> Avaliação Final</a>
+
+                    </li>
+                </ul>
+                <div class="tab-content">
+
+                    <!-- Avaliação do Colaborador -->
+                    <div class="tab-pane active" id="avaliacaoColaborador">
+
+                        <!-- <h4>Realizado por: {{aval.nome}}</h4> -->
+                        <table class="table table-striped">
+                            <tr text-center>
+                                <th>Competências</th>
+                                <th *ngFor="let diretriz of data.dadosAvaliacao?.diretrizes">{{diretriz.legenda}}</th>
+                            </tr>
+                            <tr *ngFor="let competencia of data.dadosAvaliacao?.competencias">
+                                <td>
+                                    {{competencia.competencia}}
+                                </td>
+                                <td *ngFor="let diretriz of data.dadosAvaliacao?.diretrizes">
+                                    <input [checked]="validaRespostas(data.colaboradorInfo[0].id, diretriz.id, competencia.id)"
+                                        disabled type="radio" class="radio-btn" name="{{data.colaboradorInfo[0].id}}_{{competencia.id}}">
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+                    <!-- Avaliação Final -->
+                    <div class="tab-pane" id="avaliacaoFinal">
+
+                        <!-- <h4>Realizado por: {{aval.nome}}</h4> -->
+                        <table class="table table-striped">
+                            <tr text-center>
+                                <th>Competências</th>
+                                <th>Auto Avaliação</th>
+                                <th>Avaliação Recebida</th>
+                                <th>Avaliação Final</th>
+                                <th>Alcance % por Competência</th>
+                            </tr>
+
+                            <tr *ngFor="let competencia of data.dadosAvaliacao?.competencias; let i = index">
+                                <td>
+                                    {{competencia.competencia}}
+                                <td>
+                                    {{validaRespostaAutoAvaliacao(competencia)}}    
+                                </td>
+                                <td>
+                                    {{validaRespostaAvaliacaoPessoal(competencia)}}
+                                </td>
+                                <td>
+                                    {{calculaNotaFinalAvaliacao(competencia)}}
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color="warn" mat-button (click)="closeDialog()">Fechar</button>
+</div>

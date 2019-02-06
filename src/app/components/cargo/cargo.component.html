@@ -1,0 +1,47 @@
+<sc-content-header [section]="sect"></sc-content-header>
+
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <mat-progress-spinner [mode]="indeterminate" *ngIf="dataSource.loading$ | async"></mat-progress-spinner>
+
+   <!-- id Column -->
+   <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef> ID. </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+  </ng-container>
+
+   <!-- cbo Column -->
+   <ng-container matColumnDef="cbo">
+      <mat-header-cell *matHeaderCellDef> CBO ID. </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.cbo}} </mat-cell>
+  </ng-container>
+
+  <!--cargo Column -->
+  <ng-container matColumnDef="cargo">
+      <mat-header-cell *matHeaderCellDef>Cargo</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.cargo}} </mat-cell>
+  </ng-container>
+
+
+  <!-- area_atuacao_id Column -->
+  <ng-container matColumnDef="acoes">
+      <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+
+        <button (click)="editarEmpresa(element.id)" class="btn btn-flat btn-primary">
+          <i class="fa fa-edit"></i>
+        </button>
+
+        <button (click)="ConfirmarDeleteCargo(element)" class="btn btn-flat btn-danger">
+          <i class="fa fa-trash"></i>
+        </button>
+
+      </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+</mat-table>
+
+<sc-modals (delete)="remover($event)"></sc-modals>

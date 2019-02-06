@@ -1,0 +1,23 @@
+<section class="content-header">
+
+	<div class="form-group">
+		<h1>
+			{{ section.nome }}
+			<!-- <small>{{ section.sect }}</small> -->
+		</h1>
+
+		<ol class="breadcrumb">
+			<li><a [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active">{{ section.nome }}</li>
+		</ol>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="form-group">
+				<a [routerLink]="['novo']" class="btn btn-primary btn-flat">Criar {{ section.nome }}</a>
+			</div>
+		</div>
+	</div>
+
+</section>

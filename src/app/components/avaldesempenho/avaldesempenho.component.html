@@ -1,0 +1,313 @@
+<section class="content-header">
+
+	<div class="form-group">
+		<h1>
+			Avaliação de Desempenho
+			<!-- <small>{{ section.sect }}</small> -->
+		</h1>
+
+		<ol class="breadcrumb">
+			<li><a [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active">Avaliação de Desempenho</li>
+		</ol>
+	</div>
+</section>
+
+<div class="nav-tabs-custom">
+
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#dashboard" data-toggle="tab">
+				<i class="fa fa-dashboard"></i> Dashboard</a>
+		</li>
+		<li class=""><a href="#gestaoCompetencias" data-toggle="tab">
+				<i class="fa fa-certificate"></i> Cargos / Competências</a>
+		</li>
+		<li class=""><a href="#equipe" data-toggle="tab">
+				<i class="fa fa-group"></i> Equipe</a>
+		</li>
+	</ul>
+
+	<div class="tab-content">
+		<!-- DASHBOARD -->
+		<div class="tab-pane active mt-2" id="dashboard">
+			<div class="row">
+
+				<div class="col-md-8 col-xs-8 ">
+					<p class="text-center">
+						<strong>Indicadores</strong>
+					</p>
+
+					<div class="row mt-1">
+
+						<div class="col-md-3 col-sm-6 col-xs-12">
+							<div class="small-box bg-green">
+								<div class="inner">
+									<h3>10</h3>
+
+									<p>Concluidos</p>
+								</div>
+								<div class="icon">
+									<i class="fa fa-check"></i>
+								</div>
+								<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-6 col-xs-12">
+							<div class="small-box bg-red">
+								<div class="inner">
+									<h3>10</h3>
+
+									<p>Pendentes</p>
+								</div>
+								<div class="icon">
+									<i class="fa fa-times"></i>
+								</div>
+								<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-6 col-xs-12">
+							<div class="small-box bg-primary">
+								<div class="inner">
+									<h3>4</h3>
+
+									<p>Setores Avaliados</p>
+								</div>
+								<div class="icon">
+									<i class="fa fa-info"></i>
+								</div>
+								<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-6 col-xs-12">
+							<div class="small-box bg-purple">
+								<div class="inner">
+									<h3>50%</h3>
+
+									<p>Concluidas</p>
+								</div>
+								<div class="icon">
+									<i class="fa fa-percent"></i>
+								</div>
+								<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-4">
+					<p class="text-center">
+						<strong>Prograsso das Avaliações</strong>
+					</p>
+
+					<div class="progress-group">
+						<span class="progress-text">Aval. Comportamental - Nov/2018</span>
+						<span class="progress-number"><b>38</b>/200</span>
+
+						<div class="progress sm">
+							<div class="progress-bar progress-bar-aqua" style="width: 5%"></div>
+						</div>
+					</div>
+					<!-- /.progress-group -->
+					<div class="progress-group">
+						<span class="progress-text">Aval. Técnica Gestores - Dez/2018</span>
+						<span class="progress-number"><b>310</b>/400</span>
+
+						<div class="progress sm">
+							<div class="progress-bar progress-bar-red" style="width: 92%"></div>
+						</div>
+					</div>
+					<!-- /.progress-group -->
+					<div class="progress-group">
+						<span class="progress-text">Aval. comportamental  - Jan/2019</span>
+						<span class="progress-number"><b>480</b>/800</span>
+
+						<div class="progress sm">
+							<div class="progress-bar progress-bar-green" style="width: 52%"></div>
+						</div>
+					</div>
+					<!-- /.progress-group -->
+					<div class="progress-group">
+						<span class="progress-text">Aval. Técnica Operacional - Out/2019</span>
+						<span class="progress-number"><b>29</b>/500</span>
+
+						<div class="progress sm">
+							<div class="progress-bar progress-bar-yellow" style="width: 8%"></div>
+						</div>
+					</div>
+					<!-- /.progress-group -->
+				</div>
+			</div>
+		</div>
+		<!-- COMPETÊNCIAS -->
+		<div class="tab-pane" id="gestaoCompetencias">
+
+			<!-- <h2>Competências por Cargos</h2> -->
+
+			<mat-accordion>
+				<mat-expansion-panel *ngFor="let item of cargos_empresa">
+					<!-- panel header-->
+					<mat-expansion-panel-header>
+
+						<mat-panel-title>
+							<b>{{item.cargo.cargo}}</b>
+						</mat-panel-title>
+
+						<mat-panel-description>
+						</mat-panel-description>
+
+					</mat-expansion-panel-header>
+
+					<div class="row">
+						<div class="col-md-3 col-sm-12">
+							<button mat-flat-button (click)="novaCompetencia(item.id)">
+								<mat-icon aria-label="">add_circle_outline</mat-icon>
+							</button>
+
+							<button color="warn" mat-flat-button (click)="removerCompetencia(listaCompetenciasSelecionada)">
+								<mat-icon aria-label="">delete</mat-icon>
+							</button>
+						</div>
+
+						<div class="col-md-8 col-sm-12">
+
+							<mat-toolbar color="primary">
+								<mat-toolbar-row>
+									<span>Lista de Competências</span>
+									<span class="example-spacer"></span>
+
+									<mat-icon class="example-icon">list</mat-icon>
+
+								</mat-toolbar-row>
+							</mat-toolbar>
+
+							<mat-selection-list #competencias [(ngModel)]="listaCompetenciasSelecionada">
+								<mat-list-option *ngFor="let comp of item.competencias" [value]="comp.id">
+									{{comp.competencia}}
+									{{log(comp)}}
+									<mat-divider></mat-divider>
+								</mat-list-option>
+							</mat-selection-list>
+							<!-- Selected: {{ listaCompetenciasSelecionada | json }} -->
+						</div>
+					</div>
+				</mat-expansion-panel>
+
+			</mat-accordion>
+
+
+		</div>
+		<!-- EQUIPE -->
+		<div class="tab-pane pt-2" id="equipe">
+			<!-- TOOLBAR -->
+			<div class="row">
+				<div class="col-md-2">
+					<h4 class="box-title">Colaboradores(86)</h4>
+				</div>
+				<div class="col-md-5">
+					<div class="input-group input-group-sm">
+						<input type="text" class="form-control">
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-primary btn-flat">
+								<i class="fa fa-search"></i>
+							</button>
+						</span>
+					</div>
+				</div>
+				<div class="col-md-5">
+					<!-- btn filtro -->
+					<button type="button" class="btn btn-sm btn-primary btn-flat mr-1">
+						<i class="fa fa-filter"></i> Filtro Sociis
+					</button>
+					<!-- btn aões -->
+					<div class="btn-group mr-1 ">
+						<button type="button" (click)="abreModalNovaAvaliacao()" class="btn btn-primary btn-sm btn-flat">
+							<i class="fa fa-gears"></i> Nova Avaliação</button>
+						<button  type="button" class="btn btn-primary btn-sm btn-flat dropdown-toggle" data-toggle="dropdown">
+							<span class="caret"></span>
+							<span class="sr-only">Toggle Dropdown</span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li  ><a href="#"> Avaliação</a></li>
+							<li><a href="#">Another action</a></li>
+							<li><a href="#">Something else here</a></li>
+							<li class="divider"></li>
+							<li><a href="#">Separated link</a></li>
+						</ul>
+					</div>
+					<!-- novo colaborador -->
+					<button type="button" class="btn btn-sm btn-success">
+						<i class="fa fa-plus"></i> Novo Colaborador
+					</button>
+				</div>
+			</div>
+
+			<div class="row">
+				<!-- COLABORADORES CARD-->
+				<div class="col-md-12 mt-2">
+
+					<div class="col-md-4" *ngFor="let colaborador of colaboradores">
+
+						<div class="box box-widget widget-user">
+
+							<div class="widget-user-header bg-primary">
+								<h3 class="widget-user-username">
+									<a [routerLink]="['/colaborador', colaborador.id]"> {{ colaborador.nome}}</a>
+								</h3>
+								<h5 class="widget-user-desc">{{colaborador.cargo.cargo}}</h5>
+							</div>
+							<div class="widget-user-image">
+								<a [routerLink]="['/colaborador', colaborador.id]">
+									<img class="img-circle" src="{{ colaborador.imagem }}.png" alt="User Avatar">
+								</a>
+							</div>
+							<div class="box-footer">
+								<div class="row">
+									<div class="col-sm-6 border-right">
+										<div class="description-block">
+											<span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
+											<h5 class="description-header">5.1</h5>
+											<span class="description-text">COMP. TÉC.</span>
+										</div>
+
+									</div>
+
+									<div class="col-sm-6 ">
+										<div class="description-block">
+											<span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 3%</span>
+											<h5 class="description-header">2.6</h5>
+											<span class="description-text">COMP. COMPORT.</span>
+										</div>
+
+									</div>
+								</div>
+								<div class="row">
+
+									<div class="col-sm-12 border-top text-center">
+										<div class="description-block">
+											<circle-progress [percent]="9.3" [radius]="40" [outerStrokeWidth]="6" [innerStrokeWidth]="2"
+											 [outerStrokeColor]="'#78C000'" [innerStrokeColor]="'#C7E596'" [animation]="true" [animationDuration]="300"></circle-progress>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<p-toast position="bottom-center"></p-toast>
+
+
+<!--
+  <div class="col-md-6 col-sm-6 col-xs-12">
+    <div class="info-box">
+      <div style="display: block">
+        <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType"
+          (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+      </div>
+    </div>
+
+  </div> -->

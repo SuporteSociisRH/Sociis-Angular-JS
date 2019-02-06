@@ -1,0 +1,37 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" ></ngx-loading>
+
+
+<div *ngIf="resultado == true" class="alert alert-success">
+	Cadastro Realizado com sucesso
+</div>
+
+<div *ngIf="resultado == false" class="alert alert-danger">
+	Problema ao cadastrar
+</div>
+
+
+<div class="box box-primary">
+
+	<div class="box-header with-border">
+		<div class="col-xs-12">
+			<h3 class="box-title">Nova Área de Atuação</h3>
+		</div>
+	</div>
+	
+	<form [formGroup]="areaAtuacaoForm"  (ngSubmit)="cadastrarAreaAtuacao()" >
+
+		<div class="box-body">
+			<sc-input-container errorMessage="Campo obrigatório com 5 caracteres no mínimo." label="Área de atuação">
+				<input type="text" required minlength="5" class="form-control " name="area" formControlName="area" placeholder="Area de Atuação">
+			</sc-input-container>
+		</div>
+
+		<div class="box-footer">
+			<div class="col-xs-12">
+				<button [disabled]="!areaAtuacaoForm.valid" type="submit" class="btn btn-success btn-flat pull-right">Cadastrar</button>
+				<button type="submit" class="btn btn-danger btn-flat">Cancelar</button>
+			</div>
+		</div>
+		
+	</form>
+</div>

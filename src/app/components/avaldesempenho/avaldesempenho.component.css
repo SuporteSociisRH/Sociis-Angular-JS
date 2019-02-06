@@ -1,0 +1,17 @@
+.example-icon {
+  padding: 0 14px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+h3 a {
+  color: white;
+}
+
+.widget-user .widget-user-image > a > img {
+  width: 90px;
+  height: auto;
+  border: 3px solid #fff;
+}

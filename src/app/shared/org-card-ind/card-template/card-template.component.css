@@ -1,0 +1,39 @@
+#caixa 
+{
+	width: 70px;    
+	background: #3c8dbc;
+	margin:auto;
+	text-align: center;
+	margin-top:-80px;
+	margin-bottom:60px;
+	position: relative;
+	visibility: hidden;
+
+}
+
+#caixa span 
+{
+	color: #fff;
+	display:inline;
+	padding:5px;
+}
+
+.block 
+{
+	border: 0px solid black;
+	height:auto;
+	border-radius:50px;
+}
+
+.block:hover #caixa 
+{
+	visibility: visible;
+}
+
+.selectable-nome 
+{
+	border: 0px solid black;
+	padding: .5em;
+	font-family: inherit;
+	border-radius: 20px;
+}

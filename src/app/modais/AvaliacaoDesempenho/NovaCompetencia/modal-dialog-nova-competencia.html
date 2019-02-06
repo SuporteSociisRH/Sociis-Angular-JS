@@ -1,0 +1,22 @@
+<div mat-dialog-content>
+
+
+  <mat-radio-group name="tipo_indicador" [(ngModel)]="data.tipo_indicador">
+    <div class="col-md-3 pt-2">
+      <mat-radio-button value="1">Indicador Comportamental.</mat-radio-button>
+    </div>
+    <div class="col-md-3 pt-2">
+      <mat-radio-button value="2">Indicador Técnico</mat-radio-button>
+    </div>
+  </mat-radio-group>
+
+  <mat-form-field appearance="outline" class="mt-2" style="width:100%;">
+    <mat-label>Nome do Indicador</mat-label>
+    <input matInput class="form-control" placeholder="Indicador" [(ngModel)]="data.competencia">
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions style="width:100%;">
+  <button mat-button class="btn btn-flat btn-danger" (click)="closeDialog()">Cancelar</button>
+  <button mat-button class="btn btn-flat btn-success pull-right" [mat-dialog-close]="data" cdkFocusInitial>Adicionar</button>
+</div>

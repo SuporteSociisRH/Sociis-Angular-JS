@@ -1,0 +1,221 @@
+<header id="header" class="container-fluid">
+	<h2>FORMULÁRIO DE CONTRATO</h2>
+	<span>Preencha os dados abaixo para a confecção do contrato e início da nossa Parceria</span>
+</header>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+
+
+			<!-- NOME COMPLETO DO RESPONSÁVEL -->
+			<mat-vertical-stepper [linear]="isLinear" #cadastro>
+				<!-- PRIMEIRO PASSO - responsável do formulário  -->
+				<mat-step [stepControl]="responsavelFormulario">
+					<form [formGroup]="responsavelFormulario">
+						<ng-template matStepLabel>Responsável pelo Cadastro</ng-template>
+
+						<mat-grid-list cols="3" rowHeight="90px">
+							<mat-grid-tile colspan="2">
+								<mat-form-field class="full-width">
+									<input formControlName="responsavelPeloPreenchimentoDoFormulario" matInput placeholder="Nome Completo do Responsável pelo Cadastro"
+									 required>
+								</mat-form-field>
+							</mat-grid-tile>
+
+							<mat-grid-tile>
+								<mat-form-field class="full-width">
+									<input matInput formControlName='cargoDoResponsavel' placeholder="Cargo" required>
+								</mat-form-field>
+							</mat-grid-tile>
+						</mat-grid-list>
+						<button mat-raised-button matStepperNext color="primary">Próximo Passo</button>
+					</form>
+				</mat-step>
+				<!-- SEGUNDO PASSO - dados da empresa  -->
+				<mat-step [stepControl]="dadosDaEmpresa">
+					<form [formGroup]="dadosDaEmpresa">
+						<ng-template matStepLabel>Dados da Empresa</ng-template>
+
+						<!-- cnpj -->
+						<mat-grid-list cols="3" rowHeight="90px">
+							<mat-grid-tile>
+								<mat-form-field class="full-width">
+									<input mask="00.000.000/0000-00" formControlName="cnpj" required matInput placeholder="CNPJ" value="">
+								</mat-form-field>
+							</mat-grid-tile>
+							<!-- inscrição estadual -->
+							<mat-grid-tile>
+								<mat-form-field class="full-width">
+									<input formControlName="inscricaoEstadual" matInput placeholder="Inscrição Estadual" value="">
+								</mat-form-field>
+							</mat-grid-tile>
+							<!-- inscrição municipal -->
+							<mat-grid-tile>
+								<mat-form-field class="full-width">
+									<input formControlName="inscricaoMunicipal" matInput placeholder="Inscrição Municipal" value="">
+								</mat-form-field>
+							</mat-grid-tile>
+						</mat-grid-list>
+
+						<mat-grid-list cols="2" rowHeight="90px">
+							<!-- razão social -->
+							<mat-grid-tile>
+								<mat-form-field class="full-width">
+									<input formControlName="razaoSocial" required matInput placeholder="Razão Social" value="">
+								</mat-form-field>
+							</mat-grid-tile>
+							<!-- nome fantasia  -->
+							<mat-grid-tile>
+								<mat-form-field class="full-width">
+									<input formControlName="nomeFantasia" required matInput placeholder="Nome Fantasia" value="">
+								</mat-form-field>
+							</mat-grid-tile>
+						</mat-grid-list>
+
+						<mat-grid-list cols="2" rowHeight="90px">
+							<!-- Telefone -->
+							<mat-grid-tile>
+								<mat-form-field class="full-width">
+									<input mask="(00) 000000009" formControlName="telefoneFixo" required matInput placeholder="Telefone" value="">
+								</mat-form-field>
+							</mat-grid-tile>
+							<!-- Email -->
+							<mat-grid-tile>
+								<mat-form-field class="full-width">
+									<input formControlName="emailContato" required matInput placeholder="E-mail" value="">
+								</mat-form-field>
+							</mat-grid-tile>
+						</mat-grid-list>
+
+						<mat-grid-list cols="6" rowHeight="90px">
+							<!-- CEP -->
+							<mat-grid-tile colspan="1">
+								<mat-form-field class="full-width">
+									<input mask="00.000-000" [(ngModel)]="cepEmpresa" (blur)="buscaEndereco()" required formControlName="cep"
+									 matInput placeholder="CEP" value="">
+								</mat-form-field>
+							</mat-grid-tile>
+							<!-- ENDEREÇO  -->
+							<mat-grid-tile colspan="5">
+								<mat-form-field class="full-width">
+									<input formControlName="enderecoEmpresa" matInput placeholder="Endereço" value="">
+								</mat-form-field>
+							</mat-grid-tile>
+						</mat-grid-list>
+
+						<mat-grid-list cols="3" rowHeight="90px">
+							<!-- BAIRRO -->
+							<mat-grid-tile>
+								<mat-form-field class="full-width">
+									<input formControlName="bairro" required matInput placeholder="Bairro" value="">
+								</mat-form-field>
+							</mat-grid-tile>
+							<!-- CIDADE  -->
+							<mat-grid-tile>
+								<mat-form-field class="full-width">
+									<input formControlName="cidade" required matInput placeholder="Cidade" value="">
+								</mat-form-field>
+							</mat-grid-tile>
+							<!-- ESTADO  -->
+							<mat-grid-tile>
+								<mat-form-field class="full-width">
+									<input formControlName="estado" required matInput placeholder="Estado" value="">
+								</mat-form-field>
+							</mat-grid-tile>
+						</mat-grid-list>
+						<button class="pull-left" mat-raised-button matStepperPrevious color="warn">Voltar</button>
+						<button class="pull-right" mat-raised-button matStepperNext color="primary">Próximo Passo</button>
+					</form>
+				</mat-step>
+				<!-- TERCEIRO PASSO - dados do responsável legal -->
+				<mat-step [stepControl]="dadosDoResponsavelLegal">
+					<form [formGroup]="dadosDoResponsavelLegal">
+						<ng-template matStepLabel>Responsável Legal</ng-template>
+
+						<mat-grid-list cols="4" rowHeight="90px">
+							<mat-grid-tile colspan="2">
+								<mat-form-field class="full-width">
+									<input formControlName="nomeCompleto" matInput placeholder="Nome Completo" required>
+								</mat-form-field>
+							</mat-grid-tile>
+
+							<mat-grid-tile>
+								<mat-form-field class="full-width">
+									<input formControlName="cargo" matInput placeholder="Cargo" required>
+								</mat-form-field>
+							</mat-grid-tile>
+
+							<mat-grid-tile>
+								<mat-form-field class="full-width">
+
+									<input formControlName="dataAniversario" matInput [matDatepicker]="picker" placeholder="Choose a date">
+									<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+									<mat-datepicker #picker></mat-datepicker>
+
+								</mat-form-field>
+							</mat-grid-tile>
+						</mat-grid-list>
+						<button class="pull-left" mat-raised-button matStepperPrevious color="warn">Voltar</button>
+						<button class="pull-right" mat-raised-button matStepperNext color="primary">Próximo Passo</button>
+					</form>
+				</mat-step>
+				<!-- QUARTO PASSO -  dados fiscais -->
+				<mat-step [stepControl]="dadosFiscais">
+					<form [formGroup]="dadosFiscais">
+						<ng-template matStepLabel>Dados Fiscais</ng-template>
+						<!-- DADOS FISCAIS -->
+						<mat-grid-list cols="1" rowHeight="90px">
+							<mat-grid-tile>
+								<mat-form-field class="full-width">
+									<input matInput type="email" required formControlName="emailNotaFiscal" placeholder="E-mail para Envio de Nota Fiscal"
+									 value="">
+								</mat-form-field>
+							</mat-grid-tile>
+						</mat-grid-list>
+
+
+						<mat-grid-list cols='2' rows="1" rowHeight="50px">
+							<mat-grid-tile>
+								<b>A Sociis deve reter o ISS nas Notas Fiscais ?</b>
+
+								<mat-radio-group class="example-radio-group" required formControlName="ISS">
+									<mat-radio-button class="example-radio-button" value="1">
+										SIM
+									</mat-radio-button>
+									<mat-radio-button class="example-radio-button" value="0">
+										NÃO
+									</mat-radio-button>
+								</mat-radio-group>
+							</mat-grid-tile>
+
+							<mat-grid-tile>
+								<b>Optante pelo Simples Nacional ?</b>
+								<mat-radio-group class="example-radio-group" required formControlName="simplesNacional">
+									<mat-radio-button class="example-radio-button" value="1">
+										SIM
+									</mat-radio-button>
+								</mat-radio-group>
+
+								<mat-radio-group class="example-radio-group" required formControlName="simplesNacional">
+									<mat-radio-button class="example-radio-button" value="0">
+										NÃO
+									</mat-radio-button>
+								</mat-radio-group>
+							</mat-grid-tile>
+
+							<mat-grid-tile>
+
+							</mat-grid-tile>
+
+						</mat-grid-list>
+
+						<button class="pull-left" mat-raised-button matStepperPrevious color="warn">Voltar</button>
+						<button [disabled]="dadosFiscais.invalid || dadosDaEmpresa.invalid || responsavelFormulario.invalid" class="pull-right"
+						 mat-raised-button (click)="CadastrarEmpresa()" color="primary">Finalizar</button>
+					</form>
+				</mat-step>
+			</mat-vertical-stepper>
+		</div>
+	</div>
+</div>

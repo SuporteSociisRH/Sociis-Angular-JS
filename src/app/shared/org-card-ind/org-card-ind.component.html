@@ -1,0 +1,9 @@
+<ul  [formGroup]="group">
+	
+	<div class="org-content" formArrayName="subordinados">		
+		<li data-widget="collapse" *ngFor="let c of group['controls']['subordinados']['controls']; let i = index">
+			<sc-card-template (colaboradorGroupSelectedEmitter)="caller($event)"  [indexOf]="i" [group]="c"></sc-card-template>
+			<sc-org-card-ind (colaboradorGroupSelectedEmitter)="caller($event)" *ngIf="group.controls.subordinados.controls.length > 0" [group]="c"></sc-org-card-ind>
+		</li>
+	</div>
+</ul>

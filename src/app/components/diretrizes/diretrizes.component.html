@@ -1,0 +1,38 @@
+<section class="content-header">
+
+  <div class="form-group">
+    <h1>
+      Competências
+      <!-- <small>{{ section.sect }}</small> -->
+    </h1>
+
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i>Cargo</a></li>
+      <li class="active">Competências</li>
+    </ol>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <button class="btn btn-primary" (click)="adicionarCompetencia()">Nova Competência</button>
+    </div>
+  </div>
+
+</section>
+
+
+
+<aside class="control-sidebar control-sidebar-dark" [class.control-sidebar-open]="navBarControleNovoCompetencia">
+  <form [formGroup]="cadastroCompetencia"  class="pt-4" (submit)="cadastrarCompetencia()">
+    <div class="form-group col-md-12">
+      <sc-input-container errorMessage="Campo obrigatório" label="Insira a nova Competência">
+        <input type="text" formControlName="competencia" required minlength="5" class="form-control " name="competencia" placeholder="Nova competência">
+      </sc-input-container>
+    </div>
+    <div class="col-xs-12">
+      <button type="submit" class="btn btn-success btn-flat pull-right" [disabled]="!cadastroCompetencia.valid">Cadastrar</button>
+    </div>
+  </form>
+</aside>
+
+<div class="control-sidebar-bg"></div>

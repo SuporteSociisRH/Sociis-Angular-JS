@@ -1,0 +1,14 @@
+.droppable-list {
+    min-height: 200px;
+    border:1px dashed paleturquoise;
+    display:block;
+}
+
+.draggable-item {
+  height: 60px;
+  text-align: center;
+  color:white;
+  border:1px dashed blueviolet;
+  line-height: 60px;
+  background:  mediumpurple
+}

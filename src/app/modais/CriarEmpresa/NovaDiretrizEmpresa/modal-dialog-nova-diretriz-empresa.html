@@ -1,0 +1,67 @@
+<div mat-dialog-content>
+    <h4>Adicione a nova diretriz para empresa</h4>
+
+    <form action="" [formGroup]="listaDiretrizes" class="mt3">
+        <!-- nome usuario -->
+        <div class="form-group col-md-12 col-xs-12">
+            <sc-input-container errorMessage="Campo obrigatório" label="Diretriz">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <input [(ngModel)]="diretriz.nome" class="form-control" type="text" name="nome" formControlName="nome"
+                        placeholder="Nome">
+                </div>
+            </sc-input-container>
+            <!-- email -->
+            <sc-input-container errorMessage="Campo obrigatório" label="Legenda">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-tag"></i>
+                    </div>
+                    <input [(ngModel)]="diretriz.legenda" class="form-control" type="text" name="legenda"
+                        formControlName="legenda" placeholder="Legenda">
+                </div>
+            </sc-input-container>
+            <!-- senha -->
+            <sc-input-container errorMessage="Campo obrigatório" label="Pontos">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-star-half-o"></i>
+                    </div>
+                    <input [(ngModel)]="diretriz.pontos" class="form-control" type="number" name="pontos"
+                        formControlName="pontos" placeholder="Pontos">
+                </div>
+            </sc-input-container>
+
+            <sc-input-container errorMessage="Campo obrigatório" label="Mínimo">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-arrow-down"></i>
+                    </div>
+                    <input [(ngModel)]="diretriz.minimo" class="form-control" type="text" name="minimo"
+                        formControlName="minimo" placeholder="Minimo">
+                </div>
+            </sc-input-container>
+
+            <sc-input-container errorMessage="Campo obrigatório" label="Máximo">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-arrow-up"></i>
+                    </div>
+                    <input [(ngModel)]="diretriz.maximo" class="form-control" type="maximo" name="maximo"
+                        formControlName="maximo" placeholder="Maximo">
+                </div>
+            </sc-input-container>
+        </div>
+    </form>
+
+</div>
+
+<div class="box-footer">
+    <div class="col-xs-12">
+        <button mat-button [mat-dialog-close]="diretriz" cdkFocusInitial class="btn btn-success btn-flat pull-right"
+            [disabled]="!listaDiretrizes.valid">Adicionar</button>
+        <button type="submit" class="btn btn-danger btn-flat">Cancelar</button>
+    </div>
+</div>

@@ -1,0 +1,219 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+
+
+<div *ngIf="resultado == true" class="alert alert-success">
+	Cadastro Realizado com sucesso
+</div>
+
+
+<div class="box box-primary">
+
+	<div class="box-header with-border">
+		<div class="col-xs-12">
+			<h3 class="box-title">Nova Empresas</h3>
+		</div>
+	</div>
+
+	<div *ngIf="resultado == false" class="alert alert-danger">
+		Problema ao cadastrar
+	</div>
+
+
+	<div class="nav-tabs-custom">
+		<ul class="nav nav-tabs">
+			<li class="active">
+				<a href="#dados" data-toggle="tab">
+					<i class="fa fa-info"></i> Dados Básicos
+				</a>
+			</li>
+			<li>
+				<a href="#cargos" data-toggle="tab">
+					<i class="fa fa-vcard-o"></i> Cargos
+				</a>
+			</li>
+			<li>
+				<a href="#acessoUsuarios" data-toggle="tab">
+					<i class="fa fa-group"></i> Usuários de Acesso
+				</a>
+			</li>
+			<li>
+				<a href="#diretrizes" data-toggle="tab">
+					<i class="fa fa-bar-chart"></i> Diretrizes
+				</a>
+			</li>
+		</ul>
+		<div class="tab-content">
+
+			<!-- TAB PARA INSERÇÃO DE DADOS DA EMPRESA -->
+			<div class="tab-pane active" id="dados">
+				<form [formGroup]="empresaForm" (ngSubmit)="cadastraEmpresa()">
+
+					<div class="box-body">
+						<!-- NOME FANTASIA -->
+						<div class="form-group col-lg-12 col-xs-12">
+							<sc-input-container errorMessage="Campo obrigatório com 5 caracteres no mínimo" label="Nome">
+								<input type="text" required minlength="5" formControlName="nome_fantasia" class="form-control " name="nome_fantasia"
+								 placeholder="Nome da Empresa">
+							</sc-input-container>
+						</div>
+
+						<!-- RAZAO SOCIAL -->
+						<div class="form-group col-lg-12 col-xs-12">
+							<sc-input-container errorMessage="Campo obrigatório com 5 caracteres no mínimo" label="Razão Social">
+								<input type="text" required minlength="5" formControlName="razao_social" class="form-control " name="razao_social"
+								 placeholder="Razão Social">
+							</sc-input-container>
+						</div>
+
+						<!-- CNPJ -->
+						<div class="form-group col-lg-4 col-xs-12">
+							<sc-input-container errorMessage="Campo obrigatório (apenas números)" label="CNPJ">
+								<input type="text" formControlName="cnpj" pattern="([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})"
+								 required minlength="14" class="form-control " name="cnpj" placeholder="CNPJ">
+							</sc-input-container>
+						</div>
+
+						<!-- AREA DE ATUAÇÃO  -->
+						<div class="form-group col-lg-4 col-xs-12">
+							<sc-input-container errorMessage="Campo obrigatório" label="Área de Atuação">
+								<select formControlName="area_atuacao" name="area" class="form-control " required>
+									<option *ngFor="let option of areaOptions" value={{option.id}}>{{option.area}}</option>
+								</select>
+							</sc-input-container>
+						</div>
+
+						<!-- TIPO AVALIACAO  -->
+						<div class="form-group col-lg-4 col-xs-12">
+							<sc-input-container errorMessage="Campo obrigatório" label="Tipo de Avaliação">
+								<select formControlName="tipoAvaliacao" name="tipoavaliacao" class="form-control">
+									<option selected value="">Escolha um modelo de avaliação</option>
+									<option *ngFor="let tipo of tiposAvaliacao" value={{tipo.id}}>{{tipo.modelo}}</option>
+								</select>
+							</sc-input-container>
+						</div>
+					</div>
+
+					<div class="box-footer">
+						<div class="col-xs-12">
+							<button type="submit" class="btn btn-success btn-flat pull-right" [disabled]="!empresaForm.valid || listaCargosEmpresas.length <= 0">Cadastrar</button>
+							<button type="submit" class="btn btn-danger btn-flat">Cancelar</button>
+						</div>
+					</div>
+
+				</form>
+			</div>
+
+			<!-- TAB PARA CRIAR USUÁRIO DE ACESSO AO SISTEMA PARA EMPRESA -->
+			<div class="tab-pane" id="acessoUsuarios">
+				<div class="row">
+					<div class="col-md-12">
+						<h3>Usuários de Acesso</h3>
+						<button class="btn btn-primary" (click)="adicionarUsuarioAssociadoEmpresa()">Adicionar Usuário</button>
+						<div class="box mt-3" *ngIf="UsuarioDoSistema.length > 0">
+							<div class="box-header">
+								<h3 class="box-title">Lista de Usuários</h3>
+							</div>
+							<div class="box-body">
+								<table class="table">
+									<tbody>
+										<tr>
+											<th>Nome</th>
+											<th>Email</th>
+											<th>Ações</th>
+										</tr>
+										<tr *ngFor="let user of UsuarioDoSistema; let i = index">
+											<td>{{user.nome}}</td>
+											<td>{{user.email}}</td>
+											<td>
+												<button class="btn btn-primary">
+													<i class="fa fa-edit"></i>
+												</button>
+												<button class="btn btn-danger">
+													<i class="fa fa-trash"></i>
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div class="box-footer clearfix">
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<!-- TAB PARA INSERÇÃO DE CARGOS DA EMPRESA -->
+			<div class="tab-pane" id="cargos">
+				<div class="row">
+					<div class="col-md-6">
+						<h4>Cargos na Empresa</h4>
+
+						<cdk-drop class="droppable-list" #cargosEmpresa [connectedTo]="[cargosGeral]" (dropped)="addToList($event)"
+						 [data]="listaCargosEmpresas">
+							<div class="draggable-item" *ngFor="let item of listaCargosEmpresas" cdkDrag>{{item.cargo}}</div>
+						</cdk-drop>
+					</div>
+
+					<div class="col-md-6">
+						<h4>Lista de Cargos</h4>
+
+						<cdk-drop class="droppable-list" #cargosGeral [connectedTo]="[cargosEmpresa]" (dropped)="addToList($event)"
+						 [data]="listaCargos">
+							<div class="draggable-item" *ngFor="let item of listaCargos" cdkDrag>{{item.cargo}}</div>
+						</cdk-drop>
+					</div>
+
+				</div>
+			</div>
+
+			<!-- TAB PARA INSERÇÃO DE DIRETRIZES DA EMPRESA -->
+			<div class="tab-pane" id="diretrizes">
+				<div class="row">
+					<div class="col-md-12">
+						<h3>Diretrizes</h3>
+						<button class="btn btn-primary" (click)="adicionarDiretrizes()">Adicionar Diretriz</button>
+						<div class="box mt-3" *ngIf="diretrizes.length > 0">
+							<div class="box-header">
+								<h3 class="box-title">Lista de Diretrizes</h3>
+							</div>
+							<div class="box-body">
+								<table class="table">
+									<tbody>
+										<tr>
+											<th>Diretriz</th>
+											<th>Legenda</th>
+											<th>Pontos</th>
+											<th>Mínimo %</th>
+											<th>Máximo %</th>
+											<th>Ações</th>
+										</tr>
+										<tr *ngFor="let diretriz of diretrizes; let i = index">
+											<td>{{diretriz.nome}}</td>
+											<td>{{diretriz.legenda}}</td>
+											<td>{{diretriz.pontos}}</td>
+											<td>{{diretriz.minimo}}</td>
+											<td>{{diretriz.maximo}}</td>
+											<td>
+												<button class="btn btn-primary">
+													<i class="fa fa-edit"></i>
+												</button>
+												<button class="btn btn-danger">
+													<i class="fa fa-trash"></i>
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="box-footer clearfix">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

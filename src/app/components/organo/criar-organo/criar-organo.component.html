@@ -1,0 +1,90 @@
+<h1>{{empresa}}</h1>
+
+<button [disabled]="!colaboradorForm.valid" (click)="salvaOrnanograma()" class="pull-right btn btn-flat btn-success">Salvar
+	organograma</button>
+
+
+<div [formGroup]="colaboradorForm" novalidate class="tree">
+	<div *ngIf="orgChart.length > 0" class="org-content" formArrayName="colabs">
+		<ul *ngFor="let c of colaboradorForm.controls.colabs.controls; let i = index">
+			<li>
+				<sc-card-template (colaboradorGroupSelectedEmitter)="modificaFormularioColaborador($event)" [formGroupName]="i"
+				 [group]="c"></sc-card-template>
+				<sc-org-card-ind (colaboradorGroupSelectedEmitter)="modificaFormularioColaborador($event)" *ngIf="c.controls.subordinados.length > 0"
+				 [group]="colaboradorForm.controls.colabs.controls[i]"></sc-org-card-ind>
+			</li>
+		</ul>
+	</div>
+</div>
+
+
+<aside class="control-sidebar control-sidebar-dark" [class.control-sidebar-open]="navBarControleColaboradorEditor">
+
+	<div class="form-group col-lg-12 col-xs-12">
+
+		<label for="foto">Foto</label>
+
+		<div class="avatar-upload">
+			<div required class="avatar-edit">
+				<input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" name="imagem" (change)="trocaImagem($event.target.files)" />
+				<label for="imageUpload"></label>
+			</div>
+
+			<div class="avatar-preview">
+				<div id="imagePreview" [style.background-image]="path"></div>
+			</div>
+
+		</div>
+	</div>
+
+	<form [formGroup]="colaboradorEdicao" novalidate>
+		<div class="col-md-12">
+
+		</div>
+		<div class="form-group col-md-12 mt-1">
+			<label>Colaborador</label>
+			<select required (change)="recuperaCargoColaborador(colaboradorEdicao)" class="form-control" formControlName="nome">
+				<option *ngFor="let c of colaboradores" [ngValue]="c.nome">{{c.nome}}</option>
+			</select>
+		</div>
+
+		<div class="form-group col-md-6 mt-1">
+			<button (click)="confirmaEdicaoColaborador(colaboradorEdicao)" class="btn btn-flat btn-success">Confirmar</button>
+		</div>
+
+	</form>
+
+
+	<div class="form-group col-md-12 mt-1">
+
+		<label>Subordinados</label>
+
+		<form [formGroup]="colaboradorEdicao" novalidate>
+			<div formArrayName="subordinados">
+				<div *ngFor="let sub of subordinadosColaboradorEdicao?.controls; let i=index" id="mini-label-subordinados" class="label-primary input-sm mt-1">
+					<img (click)="contaFilhos(group)" class="profile-user-img img-responsive img-sm img-circle" src="{{baseStorageUrl}}colaboradores/{{sub.value.imagem}}.jpg"
+					 alt="User profile picture">
+					<label for="{{ sub.value.nome }}" class="label">{{ sub.value.nome }}</label>
+
+					<span (click)="removeColaborador(sub, i)" class="badge bg-red pull-right">
+						<i class="fa fa-close"></i>
+					</span>
+
+					<span (click)="adicionarColaborador(sub)" class="badge bg-green pull-right">
+						<i class="fa fa-plus"></i>
+					</span>
+
+					<span (click)="modificaFormularioColaborador(sub)" class="badge bg-blue pull-right">
+						<i class="fa fa-user"></i>
+					</span>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</aside>
+
+<div class="control-sidebar-bg"></div>
+
+<p-toast position="bottom-center"></p-toast>
+

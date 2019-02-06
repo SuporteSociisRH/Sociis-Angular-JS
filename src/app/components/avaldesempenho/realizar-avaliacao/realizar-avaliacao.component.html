@@ -1,0 +1,74 @@
+<section class="content-header">
+
+	<div class="form-group">
+		<h1>
+			Avaliações Pendentes
+			<!-- <small>{{ section.sect }}</small> -->
+		</h1>
+
+		<ol class="breadcrumb">
+			<li><a [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active">Avaliação pendentes</li>
+		</ol>
+	</div>
+</section>
+
+
+
+
+<div class="row">
+	<!-- lista de provas a serem realizadas -->
+	<div class="col-md-12">
+		<div class="col-md-3">
+			<div class="box box-solid">
+				<div class="box-header with-border">
+
+					<h3 class="box-title">Exames a Realizar</h3>
+
+					<img *ngIf="!primeiro_acesso" class="profile-user-img img-responsive mt-2" src="{{baseStorageUrl}}colaboradores/{{  colaborador_imagem }}.png">
+
+					<div class="box-tools">
+						<i class="fa fa-file-o"> </i>
+					</div>
+				</div>
+				<div class="box-body no-padding">
+					<ul class="nav nav-pills nav-stacked">
+						<li *ngFor="let exame of avaliacoes_perfil; let i = index">
+							<a [routerLink]="['/realizar-avaliacao/', exame?.id]">
+								{{ exame?.colaboradors[0].nome }}
+							</a>
+						</li>
+					</ul>
+				</div>
+				<!-- /.box-body -->
+			</div>
+		</div>
+		<!-- avaliações -->
+		<div class="col-md-9" *ngIf="!primeiro_acesso">
+			<div class="box box-solid">
+				<form #cadastroExame="ngForm" (submit)="finalizarAvaliacao(cadastroExame)">
+					<table class="table table-striped">
+
+						<tr>
+							<th>Competências</th>
+							<th *ngFor="let d of diretriz">{{ d?.legenda }}</th>
+						</tr>
+						<tr *ngFor="let c of competencias">
+							<td>{{c?.competencia}}</td>
+							<td *ngFor="let d of diretriz">
+								<mat-radio-group [ngModel]="resposta" required name="{{c?.id}}">
+									<mat-radio-button value="{{c?.id}}_{{d?.id}}"></mat-radio-button>
+								</mat-radio-group>
+							</td>
+						</tr>
+					</table>
+					<button [disabled]="cadastroExame.invalid" type="submit" class="pull-right btn btn-success btn-flat">
+						Finalizar Avaliação
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<p-toast position="bottom-center"></p-toast>

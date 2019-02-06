@@ -1,0 +1,111 @@
+/*Now the CSS*/
+
+
+.org-content {
+    column-count: auto;
+    -moz-column-fill: balance;
+    column-fill: balance;    
+}
+
+div.box {
+   /* width: max-content;*/
+    margin-bottom:0;
+}
+
+div.tree {
+	text-align:center;
+}
+div.tree ul 
+{
+	display:inline-block;
+    padding-left: 0;
+    vertical-align: top;
+    padding-top: 20px; position: relative;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+}
+div.tree li 
+{
+    display: inline-grid;
+    float: left; 
+    position: relative;
+    padding: 20px 5px 0 5px;
+    text-align: center;
+    list-style-type: none;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+}
+
+div.tree li div.box-header {
+    text-align: left;
+}
+div.tree div.box-header h3:hover{
+    background: #FFFACD;
+}
+div.tree li div.box-body, div.tree li div.box-footer {
+    text-align: right;
+}
+/*We will use ::before and ::after to draw the connectors*/
+div.tree li::before, div.tree li::after
+{
+    content: '';
+    position: absolute; top: 0; right: 50%;
+    border-top: 1px solid #ccc;
+    width: 50%; height: 20px;
+}
+div.tree li::after
+{
+    right: auto; left: 50%;
+    border-left: 1px solid #ccc;
+}
+
+/*We need to remove left-right connectors from elements without 
+any siblings*/
+div.tree li:only-child::after, div.tree li:only-child::before 
+{
+    display: none;
+}
+
+/*Remove space from the top of single children*/
+div.tree li:only-child{ padding-top: 0;}
+
+/*Remove left connector from first child and 
+right connector from last child*/
+div.tree li:first-child::before, div.tree li:last-child::after
+{
+    border: 0 none;
+}
+/*Adding back the vertical connector to the last nodes*/
+div.tree li:last-child::before
+{
+    border-right: 1px solid #ccc;
+    border-radius: 0 5px 0 0;
+    -webkit-border-radius: 0 5px 0 0;
+    -moz-border-radius: 0 5px 0 0;
+}
+div.tree li:first-child::after{
+    border-radius: 5px 0 0 0;
+    -webkit-border-radius: 5px 0 0 0;
+    -moz-border-radius: 5px 0 0 0;
+}
+
+/*Time to add downward connectors from parents*/
+div.tree ul ul::before
+{
+    content: '';
+    position: absolute; top: 0; left: 50%;
+    border-left: 1px solid #ccc;
+    width: 0; height: 20px;
+}
+
+#mini-label-subordinados span 
+{
+      visibility: hidden;
+}
+  
+#mini-label-subordinados:hover span 
+{
+      visibility:visible;
+}

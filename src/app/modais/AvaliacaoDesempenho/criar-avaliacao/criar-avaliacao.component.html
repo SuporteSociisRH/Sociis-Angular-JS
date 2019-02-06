@@ -1,0 +1,89 @@
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
+	<mat-step [stepControl]="tipo_avaliacao">
+		<form [formGroup]="tipo_avaliacao">
+			<ng-template matStepLabel>Qual o Tipo desta Avaliação ?</ng-template>
+
+			<div class="col-md-12" style="height:390px">
+				<mat-radio-group name="tipo_avaliacao" formControlName="tipo_avaliacao">
+					<div class="col-md-12 pt-3">
+						<div class="col-md-12">
+							<mat-radio-button value="1">Av. Comportamental</mat-radio-button>
+						</div>
+						<div class="col-md-12">
+							<mat-radio-button value="2">Av. Técnica</mat-radio-button>
+						</div>
+					</div>
+				</mat-radio-group>
+			</div>
+			<div>
+				<button mat-button class="pull-right btn btn-success btn-flat" matStepperNext>Próximo</button>
+			</div>
+		</form>
+	</mat-step>
+	<mat-step>
+		<ng-template matStepLabel>A quem é destinada essa avaliação?</ng-template>
+		<div class="row">
+			<div class="col-md-2">
+				<p class="title">Setores</p>
+
+				<div class="col-md-12" *ngFor="let sector of setores; let i = index;">
+					<input type="checkbox" [value]="i" (change)="checkValue($event)"> {{ sector }}
+				</div>
+
+				<p class="title">Cargos</p>
+				<div *ngFor="let cargo of cargos; let i = index;">
+					<input type="checkbox" [(ngModel)]="cargo.checked"  [value]="cargo.cargo_id"  (click)="checkValue($event)" class="example-margin"> {{
+					cargo.cargo.cargo }}
+				</div>
+
+
+
+				<p class="title">Tmp de Serviço</p>
+				<mat-checkbox>3 Meses</mat-checkbox>
+				<mat-checkbox>6 Meses</mat-checkbox>
+				<mat-checkbox>1 a 2 anos</mat-checkbox>
+				<mat-checkbox>3 a 4 anos</mat-checkbox>
+				<mat-checkbox>4+ anos </mat-checkbox>
+			</div>
+
+			<div class="col-md-10">
+				<div class="col-md-2" *ngFor="let colaborador of colaboradores_copia">
+					<img src="{{ colaborador.imagem }}" alt="imagem do colaborador {{colaborador.nome}}" class="img img-circle img-responsive">
+					<p class="text-center">{{colaborador.nome}}</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div>
+				<button mat-button class="btn btn-danger btn-flat" matStepperPrevious>Voltar</button>
+				<button mat-button matStepperNext class="pull-right btn btn-success btn-flat">Próximo</button>
+			</div>
+		</div>
+	</mat-step>
+	<mat-step [stepControl]="configuracao_avaliacao">
+		<form [formGroup]="configuracao_avaliacao">
+			<ng-template matStepLabel>Dados Adicionais da Avaliação</ng-template>
+
+			<div class="col-md-12" style="">
+				<mat-form-field>
+					<input matInput formControlName="data_inicio" [matDatepicker]="data_inicio" placeholder="Data de Início">
+					<mat-datepicker-toggle matSuffix [for]="data_inicio"></mat-datepicker-toggle>
+					<mat-datepicker touchUi="true" #data_inicio></mat-datepicker>
+				</mat-form-field>
+
+				<mat-form-field>
+					<input matInput formControlName="data_fim" [matDatepicker]="data_final" placeholder="Data Final">
+					<mat-datepicker-toggle matSuffix [for]="data_final"></mat-datepicker-toggle>
+					<mat-datepicker touchUi="true" #data_final></mat-datepicker>
+				</mat-form-field>
+
+			</div>
+			<div>
+				<button mat-button class="btn btn-danger btn-flat" matStepperPrevious>Voltar</button>
+				<button mat-button matStepperNext class="pull-right btn btn-success btn-flat">Próximo</button>
+			</div>
+
+		</form>
+
+	</mat-step>
+</mat-horizontal-stepper>

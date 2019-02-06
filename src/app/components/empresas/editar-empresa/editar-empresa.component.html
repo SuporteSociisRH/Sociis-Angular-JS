@@ -1,0 +1,407 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+
+
+<div class="nav-tabs-custom">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#info" data-toggle="tab" aria-expanded="true">Informações Básicas</a></li>
+    <li class=""><a href="#colaborador" data-toggle="tab" aria-expanded="false">Colaborador</a></li>
+    <li class=""><a href="#cargoSalario" data-toggle="tab" aria-expanded="false">Cargos & Salários</a></li>
+    <li class=""><a href="#avalDesempenho" data-toggle="tab" aria-expanded="false">Avaliação de Desempenho</a></li>
+  </ul>
+
+
+
+  <div class="tab-content">
+    <!--
+			INFORMAÇÕES BÁSICAS
+		-->
+    <div class="tab-pane active" id="info">
+      <h3>Informações</h3>
+      <div class="row">
+        <form [formGroup]="empresaInfoGroup">
+          <!-- NOME FANTASIA -->
+          <div class="form-group col-lg-12 col-xs-12">
+            <sc-input-container errorMessage="Campo obrigatório com 5 caracteres no mínimo" label="Nome Fantasia">
+              <input type="text" required minlength="5" formControlName="nome_fantasia" class="form-control " name="nome_fantasia"
+                placeholder="Nome da Empresa">
+            </sc-input-container>
+          </div>
+
+          <!-- RAZAO SOCIAL -->
+          <div class="form-group col-lg-12 col-xs-12">
+            <sc-input-container errorMessage="Campo obrigatório com 5 caracteres no mínimo" label="Razão Social">
+              <input type="text" required minlength="5" formControlName="razao_social" class="form-control" name="razao_social"
+                placeholder="Razão Social">
+            </sc-input-container>
+          </div>
+
+          <!-- CNPJ -->
+          <div class="form-group col-lg-6 col-xs-12">
+            <sc-input-container errorMessage="Campo obrigatório no formato cnpj(com caracteres especiais)" label="CNPJ">
+              <input type="text" formControlName="cnpj" pattern="([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})"
+                required minlength="14" class="form-control " name="cnpj" placeholder="CNPJ">
+            </sc-input-container>
+          </div>
+
+          <!-- AREA DE ATUAÇÃO  -->
+          <div class="form-group col-lg-6 col-xs-12">
+            <sc-input-container errorMessage="Campo obrigatório" label="Área de Atuação">
+              <select formControlName="area_atuacao" name="area" class="form-control " required>
+                <option [selected]="option.id === areaAtuacaoId" *ngFor="let option of areaOptions" value={{option.id}}>{{
+                  option.area }}</option>
+              </select>
+            </sc-input-container>
+          </div>
+        </form>
+      </div>
+
+    </div>
+    <!--
+			LISTA DE COLABORADORES
+		-->
+    <div class="tab-pane" id="colaborador">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Colaboradores</h3>
+
+          <div class="box-tools pull-right">
+            <span class="label label-primary">{{colaboradores?.length}} colaboradores</span>
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="box-body no-padding">
+          <ul class="img-thumbnail users-list clearfix">
+            <li *ngFor="let colab of colaboradores">
+              <img style="width:150px; height:150px;" src="{{baseStorageUrl}}colaboradores/{{ colab.imagem }}.jpg"
+                class="img-thumbnail" alt="User Image">
+              <a class="users-list-name" href="#">{{colab.nome}}</a>
+              <span class="users-list-date">{{colab.created_at}}</span>
+            </li>
+          </ul>
+
+        </div>
+
+      </div>
+    </div>
+    <!--
+			CARGOS & SALÁRIOS
+		-->
+    <div class="tab-pane" id="cargoSalario">
+      <h3>Cargos e Salários</h3>
+
+      <div class="nav-tabs-custom mt-2">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#fatores" data-toggle="tab" aria-expanded="true">Fatores</a></li>
+          <li class=""><a href="#cargos" data-toggle="tab" aria-expanded="false">Rank. Cargos</a></li>
+          <li class=""><a href="#detalhamentocargosesalarios" data-toggle="tab" aria-expanded="false">Detalhamento</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <!--
+						FATORES
+					-->
+          <div class="tab-pane active" id="fatores">
+            <h4 class="mb-2">Fatores</h4>
+
+            <button (click)="criaNovoFator()" class="btn btn-flat btn-primary">
+              Adicionar Fator
+            </button>
+
+            <div class="box-group" id="accordion">
+
+
+              <!-- listando todos os fatores -->
+              <div class="panel box box-primary mt-4" *ngFor="let f of fatores; let i = index">
+
+                <div class="box-header with-border">
+                  <h4 class="box-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#fator{{ i }}" aria-expanded="true" class="">
+                      {{f.fator.fator }}
+                    </a>
+                  </h4>
+
+                  <label (click)="removeFator(f, i)" class="btn pull-right label label-danger">
+                    <i class="fa fa-close"></i>
+                  </label>
+
+                </div>
+
+                <div id="fator{{ i }}" class="panel-collapse collapse" aria-expanded="true">
+                  <div class="box-body">
+
+
+                    <div class="input-group input-group-sm col-md-3" *ngFor="let g of f.grau.graus">
+
+                      <label for="{{g.identificador}}">{{g.identificador}}</label>
+
+                      <input DISABLED type="text" class="col-md-1 form-control " [value]="g.valor">
+
+                      <span class="va-bottom input-group-btn">
+                        <button (click)="removeGrau(grau, i)" type="button" class="btn btn-danger btn-flat">
+                          <i class="fa fa-trash"></i>
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--
+						RANKING DE CARGOS E SALÁRIOS
+					-->
+          <div class="tab-pane" id="cargos">
+
+            <h4 class="mb-4">Rank. Cargos</h4>
+
+            <div class="row">
+              <form (ngSubmit)="salvarRankingCargos(formRankingCargos)" #formRankingCargos="ngForm">
+                <div class="col-md-12">
+
+                  <div class="box-group" id="accordion">
+                    <div class="panel box box-primary " *ngFor="let item of listaCargosEmpresa; let i = index">
+
+                      <div class="box-header with-border">
+                        <h4 class="box-title">
+                          <a data-toggle="collapse" data-parent="#accordion" href="#cargo{{ i }}" aria-expanded="true"
+                            class="">
+                            {{ item.cargo.cargo }}
+                          </a>
+                        </h4>
+
+                      </div>
+
+                      <div id="cargo{{ i }}" class="panel-collapse collapse" aria-expanded="true">
+                        <div class="box-body">
+                          <!-- TABS LISTANDO OS FATORES DA EMPRESA -->
+                          <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                              <li *ngFor="let f of fatores; let fatorIndex1 = index" [class.active]="fatorIndex1 == 0">
+                                <a href="#tab_{{item.id}}_{{f.id}}" data-toggle="tab">{{f.fator.fator}}</a>
+                              </li>
+
+
+                            </ul>
+                            <div class="tab-content">
+                              <div *ngFor="let f of fatores; let fatorIndex2 = index" class="tab-pane " [class.active]="fatorIndex2 == 0"
+                                id="tab_{{item.id}}_{{f.id}}">
+                                <h3>Descrição:</h3>
+                                <p>{{f.fator.descricao}}
+                                  <p>
+                                    <div *ngFor="let g of f.grau.graus; let grauIndex = index">
+                                      <input ngModel type="radio" id="{{g.identificador}}" name="{{item.id}}_{{f.fator_id}}"
+                                        value="{{f.grau.id}}_{{grauIndex}}" class="radio-btn">
+                                      - <span>{{g.descricao}}</span>
+                                    </div>
+                              </div>
+                              <!-- /.tab-pane -->
+                            </div>
+                            <!-- /.tab-content -->
+                          </div>
+                        </div><!-- TABS LISTANDO OS FATORES DA EMPRESA -->
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-1">
+                    <button type="submit" class="btn btn-success btn-flat ">
+                      <i class="fa fa-save"></i> Salvar
+                    </button>
+                  </div>
+                  <div class="col-md-1">
+                    <button class="btn btn-danger btn-flat " (click)="gravarRankingCargos()">
+                      <i class="fa fa-warning"></i> Validar
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!--
+						DETALHAMENTO: FATORES X GRAUS
+					-->
+          <div class="tab-pane" id="detalhamentocargosesalarios">
+
+            <h4 class="mb-4">Detalhamento de Fatores/Graus</h4>
+
+
+            <div class="row">
+              <div class="col-md-12" *ngIf="fatores.length > 0">
+                <table class="table table-striped col-md-12">
+                  <tbody>
+                    <tr>
+                      <th class="col-md-3">Fatores</th>
+                      <th *ngFor="let fod of fatores_ordenados_decrescente.grau.graus" style="text-align:center; width:60px">
+                        {{ fod.identificador }}
+                      </th>
+                    </tr>
+                    <tr *ngFor="let f of fatores;">
+                      <td>{{ f.fator.fator }}</td>
+                      <td *ngFor="let g of f.grau.graus" style="text-align:center; width:60px">
+                        {{ g.valor }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div>
+
+
+
+<!--
+	MODAL: ADICIONAR NOVO FATOR
+-->
+<aside class="control-sidebar navBarFatores control-sidebar-dark" [class.control-sidebar-open]="navBarControleNovoFator">
+
+  <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+    <li class="active"><a href="#selecionarFator" data-toggle="tab" aria-expanded="false">Selecionar</a></li>
+    <li class=""><a href="#CriarFator" data-toggle="tab" aria-expanded="false">Criar</a></li>
+  </ul>
+
+  <div class="tab-content">
+
+    <div class="tab-pane active" id="selecionarFator">
+      <form [formGroup]="fator">
+        <div class="form-group">
+          <h3 class="control-sidebar-heading">Selecionar Fator</h3>
+
+          <select formControlName="fator" class="form-control">
+            <option *ngFor="let f of listaFatores" value="{{f.id}}">{{f.fator}}</option>
+          </select>
+
+          <div>
+            <button [disabled]="fator.controls.grau.length<3 || !fator.valid" (click)="adicionaFator(fator)" class="pull-left mt-1 btn btn-flat btn-success">
+              <i class="fa fa-check"></i>
+            </button>
+            <button (click)="cancelarNovoFator()" class="pull-left mt-1 btn btn-flat btn-danger">
+              <i class="fa fa-times"></i>
+            </button>
+            <button (click)="adicionarGrau(fator)" class="pull-right mt-1 btn-large btn btn-flat btn-primary">
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-5 form-group">
+          <h3 class="control-sidebar-heading">Lista de Graus</h3>
+          <ul class="control-sidebar-menu">
+
+            <li *ngFor="let f of fator?.controls.grau?.controls; let i=index" id="mini-label-subordinados">
+              <a formArrayName="grau" href="javascript:void(0)">
+
+                <div [formGroupName]="i" class="col-md-6">
+                  <select formControlName="identificador" required class="form-control" name="grau" id="grau">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="G">G</option>
+                  </select>
+                </div>
+
+                <div [formGroupName]="i" class="col-md-6">
+                  <input *ngIf="i == 0" max="{{valor_limite_do_proximo_grau}}" type="number" formControlName="valor"
+                    class="form-control" placeholder="valor" />
+                  <input *ngIf="i > 0" [readonly]="i > 0" type="number" formControlName="valor" class="form-control"
+                    placeholder="valor" />
+                </div>
+
+                <div [formGroupName]="i" class="col-md-12 mt-3 pb-2">
+                  <textarea formControlName="descricao" class="form-control" placeholder="Descrição"></textarea>
+                </div>
+
+                <div *ngIf="i > 0" class="col-md-4">
+                  <label (click)="removeGrau(f, i)" for="" class="btn btn-danger"><i class="fa fa-times"></i></label>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </form>
+    </div>
+
+    <div id="CriarFator" class="tab-pane">
+
+      <ngx-loading [show]="loadingNewFator" [config]="{ backdropBorderRadius: '5px' }"></ngx-loading>
+
+      <h3 class="control-sidebar-heading">Criar Fator</h3>
+
+      <form [formGroup]="cadastroFator" (submit)="cadastrarFator()">
+        <div class="form-group col-md-12">
+          <sc-input-container errorMessage="Campo obrigatório" label="Novo Fator">
+            <input type="text" formControlName="fator" required minlength="5" class="form-control " name="fator"
+              placeholder="Novo Fator">
+          </sc-input-container>
+
+          <sc-input-container errorMessage="Campo obrigatório" label="Descrição">
+            <textarea class="form-control" formControlName="descricao" rows="3" placeholder="Enter ..."></textarea>
+          </sc-input-container>
+        </div>
+        <div class="col-xs-12">
+          <button type="submit" class="btn btn-success btn-flat pull-right" [disabled]="!cadastroFator.valid">Cadastrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</aside>
+
+<!--
+	MODAL: ADICIONAR NOVA DIRETRIZ
+-->
+<aside class="control-sidebar control-sidebar-dark navbarDiretriz" [class.control-sidebar-open]="navBarControleNovoDiretriz">
+
+  <div class="form-group col-md-12 pt-3">
+    <h4>Adicione Diretrizes</h4>
+
+    <button class="btn btn-success btn-flat" (click)="salvarDiretrizes()"><i class="fa fa-check"></i></button>
+    <button class="btn btn-danger btn-flat" (click)="cancelaDiretriz()"><i class="fa fa-close"></i></button>
+    <button class="btn btn-primary pull-right btn-flat" (click)="criaDiretriz()"><i class="fa fa-plus"></i></button>
+
+    <form [formGroup]="cadastroDiretriz" class="pt-4" (submit)="cadastrarDiretriz()">
+      <div class="form-group col-md-12">
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let d of cadastroDiretriz?.controls?.lista?.controls; let e = index">
+            <div formArrayName="lista">
+              <div [formGroupName]="e">
+                <span>#{{e}}</span><input type="text" formControlName="nome" class="form-control">
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </form>
+  </div>
+</aside>
+
+<!--
+	MODAL: ADICIONAR NOVA COMPETÊNCIA
+-->
+<aside class="control-sidebar nova-competencia control-sidebar-dark pb-4 mt-5" [class.control-sidebar-open]="navBarControleNovoCompetencia">
+  <form [formGroup]="cadastroCompetencia" class="pt-4" (submit)="cadastrarCompetencia()">
+    <div class="form-group col-md-12">
+      <sc-input-container errorMessage="Campo obrigatório" label="Insira a nova Competência">
+        <input type="text" formControlName="competencia" required minlength="5" class="form-control" name="competencia"
+          placeholder="Nova competência">
+      </sc-input-container>
+    </div>
+    <div class="col-xs-1 pull-right">
+      <button type="submit" class="btn btn-success btn-flat pull-right" [disabled]="!cadastroCompetencia.valid">Cadastrar</button>
+    </div>
+    <div class="col-xs-1 pull-right">
+      <button type="button" class="btn btn-danger btn-flat pull-right" (click)="cancelarNovaCompetencia()">Cancelar</button>
+    </div>
+  </form>
+</aside>
+
+<p-toast position="bottom-center"></p-toast>

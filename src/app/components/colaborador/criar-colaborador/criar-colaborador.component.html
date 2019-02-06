@@ -1,0 +1,82 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+
+<div *ngIf="resultado == true" class="alert alert-success">
+	Cadastro Realizado com sucesso
+</div>
+
+<div *ngIf="resultado == false" class="alert alert-danger">
+	Problema ao cadastrar
+</div>
+
+
+<div class="box box-primary">
+
+	<div class="box-header with-border">
+		<div class="col-xs-12">
+			<h3 class="box-title">Novo Colaborador</h3>
+		</div>
+	</div>
+
+	<form [formGroup]="colaboradorForm" (ngSubmit)="CadastrarColaborador()">
+		
+		<div class="box-body">
+
+			<div class="form-group col-lg-12 col-xs-12">
+				{{ colaboradorForm.value | json }}
+				<label for="foto">Foto</label>
+
+				<div class="avatar-upload">
+					<div class="avatar-edit">
+						<input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" name="imagem" (change)="trocaImagem($event.target.files)" />
+						<label for="imageUpload"></label>
+					</div>
+
+					<div class="avatar-preview">
+						<div id="imagePreview" [style.background-image]="path"></div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="form-group col-lg-12 col-xs-12">
+				<sc-input-container errorMessage="Campo obrigatório com 5 caracteres no mínimo" label="Nome">
+					<input formControlName="nome" type="text" required minlength="5" placeholder="Nome Completo" class="form-control "
+					 name="nome">
+				</sc-input-container>
+			</div>
+
+
+			<div class="form-group col-lg-4 col-xs-12">
+				<sc-input-container errorMessage="Campo obrigatório" label="Empresa">
+					<select [(ngModel)]="empresa_selecionada" (change)="carregaColaboradores()" formControlName="empresa" name="empresa" class="form-control" required>
+						<option  *ngFor="let option of empresaOptions" value="{{option.id}}">{{option.nome_fantasia}}</option>
+					</select>
+				</sc-input-container>
+			</div>
+
+			<div class="form-group col-lg-4 col-xs-12">
+				<sc-input-container errorMessage="Campo obrigatório" label="Cargo">
+					<select name="cargo" class="form-control" formControlName="cargo" required>
+						<option *ngFor="let option of cargoOptions" value="{{option.id}}">{{option.cargo}}</option>
+					</select>
+				</sc-input-container>
+			</div>
+
+			<div class="form-group col-lg-4 col-xs-12">
+				<sc-input-container errorMessage="" label="Subordinado a">
+					<select name="gestor" class="form-control" formControlName="gestor">
+						<option *ngFor="let option of lista_colaboradores_gestores" value={{option.id}}>{{option.nome}}</option>
+					</select>
+				</sc-input-container>
+			</div>
+		</div>
+
+		<div class="box-footer">
+			<div class="col-xs-12">
+				<button [disabled]="!colaboradorForm.valid" type="submit" class="btn btn-success btn-flat pull-right">Cadastrar</button>
+				<button type="submit" class="btn btn-danger btn-flat">Cancelar</button>
+			</div>
+		</div>
+
+	</form>
+</div>
